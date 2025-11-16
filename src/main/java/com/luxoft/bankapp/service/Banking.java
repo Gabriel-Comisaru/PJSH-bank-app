@@ -29,4 +29,6 @@ public interface Banking {
     void transferMoney(Client from, Client to, double amount);
 
     void setRepository(ClientRepository storage);
+
+    ClientRepository getRepository();
 }
