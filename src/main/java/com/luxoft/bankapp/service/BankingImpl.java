@@ -14,8 +14,8 @@ public class BankingImpl implements Banking {
     @Override
     public Client addClient(Client c) {
 
-        Client created = repository.add(c);
         c.setRepository(repository);
+        Client created = repository.add(c);
 
         return created;
     }
@@ -62,7 +62,7 @@ public class BankingImpl implements Banking {
 
             client.addAccount(account);
 
-            repository.update(c);
+            repository.update(client);
         }
 
         return account;
@@ -78,7 +78,7 @@ public class BankingImpl implements Banking {
             clientToUpdate.removeAccount(account.getClass());
             clientToUpdate.addAccount(account);
 
-            repository.update(c);
+            repository.update(clientToUpdate);
         }
     }
 
