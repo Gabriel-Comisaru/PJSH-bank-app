@@ -21,10 +21,9 @@ public class BankApplication {
     public static void main(String[] args) {
 
         ApplicationContext context =
-                new ClassPathXmlApplicationContext("application-context.xml");
+                new ClassPathXmlApplicationContext("application-context.xml", "test-context.xml");
 
-        ClientRepository repository = new MapClientRepository();
-        Banking banking = initialize(repository);
+        Banking banking = initialize(context);
 
         workWithExistingClients(banking);
 
@@ -33,12 +32,12 @@ public class BankApplication {
 //        bankReportsDemo(repository);
     }
 
-    public static void bankReportsDemo(ClientRepository repository) {
+    public static void bankReportsDemo(ApplicationContext context) {
 
         System.out.println("\n=== Using BankReportService ===\n");
 
-        BankReportService reportService = new BankReportServiceImpl();
-        reportService.setRepository(repository);
+        BankReportService reportService =
+                (BankReportService) context.getBean("bankReport");
 
         System.out.println("Number of clients: " + reportService.getNumberOfBankClients());
 
@@ -107,24 +106,11 @@ public class BankApplication {
      */
     public static Banking initialize(ApplicationContext context) {
 
-        Banking banking = context.getBean(Banking.class);
+        Banking banking = (Banking) context.getBean("banking");
 
-        ClientRepository clientRepository = context.getBean(ClientRepository.class);
+        Client client_1 = context.getBean("client1", Client.class);
 
-        banking.setRepository(repository);
-
-        Client client_1 = new Client(CLIENT_NAMES[0], Gender.MALE);
-
-        AbstractAccount savingAccount = new SavingAccount(1000);
-        client_1.addAccount(savingAccount);
-
-        AbstractAccount checkingAccount = new CheckingAccount(1000);
-        client_1.addAccount(checkingAccount);
-
-        Client client_2 = new Client(CLIENT_NAMES[1], Gender.MALE);
-
-        AbstractAccount checking = new CheckingAccount(1500);
-        client_2.addAccount(checking);
+        Client client_2 = context.getBean("client2", Client.class);
 
         banking.addClient(client_1);
         banking.addClient(client_2);

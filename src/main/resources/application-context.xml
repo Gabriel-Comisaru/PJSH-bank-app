@@ -9,4 +9,8 @@
 
     <bean id="banking" class="com.luxoft.bankapp.service.BankingImpl" autowire="byType"/>
 
+    <bean id="bankReportService"
+          class="com.luxoft.bankapp.service.BankReportServiceImpl"
+          autowire="byType"/>
+    
 </beans>
